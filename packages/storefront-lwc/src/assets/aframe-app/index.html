@@ -2,18 +2,19 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>GadgetPlus WebVR UFO Virtual Reality Ecommerce Online Store</title>
-<meta name="author" content="drawvr.com">
-<meta name="description" content="Gadget Plus VR Virtual Reality online store with handy electronics and awesome gifts. Find laser pointers, magnifying tools, party gear and more!">
+<title>Commerce Cloud - Immersive 3D experience</title>
 <script src="../aframe/aframe.js"></script>
 <script src="../aframe-extras/aframe-extras.js"></script>
 
 </head>
 <body>  
 <a-scene physics>
-  <a-entity camera universal-controls kinematic-body jump-ability="enableDoubleJump: true; distance: 3;" position="0 2 12">
-   <a-entity id="cursor" cursor="fuse: true; maxDistance: 8" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.01" material="color: red; opacity: 0;" position="0 0 -0.69"></a-entity>
+  <!-- PHIL: change the camera/ciursor to adapt to the new a-frame APIs -->
+  <a-entity id="rig" movement-controls="constrainToNavMesh: true" position="0 2 12">
+    <a-entity camera position="0 0 0" look-controls="pointerLockEnabled: true">
+      <a-entity id="cursor" cursor="fuse: true" raycaster="far: 8" geometry="primitive: ring; radiusInner: 0.005; radiusOuter: 0.01" material="color: red; opacity: 0;" position="0 0 -0.69"></a-entity>
   </a-entity>
+</a-entity>
   
 <!-- Floor -->
 <a-entity static-body geometry="primitive: plane; height: 100; width: 110" position="0 -0.5 11" rotation="-90 0 0" material="shader: flat; 
@@ -462,6 +463,21 @@ document.querySelector('#doorright').addEventListener('click', function () {
 document.querySelector('#doorleft').emit('door-left');
 document.querySelector('#doorright').emit('door-right');
 });
+
+function openInspector() {
+    window.postMessage('INJECT_AFRAME_INSPECTOR','*');
+}
+
+////////
+// Default CTRL+ALT+I doesn't seem to work on mac
+// Map to Options+I
+document.onkeydown = function(evt) {
+  var shortcutPressed = evt.keyCode === 73 && evt.altKey;
+  if (!shortcutPressed) { return; }
+  openInspector();
+}
+
+//openInspector();
 </script>
  </body>
 </html>
